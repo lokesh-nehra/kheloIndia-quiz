@@ -18,6 +18,11 @@ export default function Quiz() {
     []
   );
 
+  const handleRestartQuiz = useCallback(
+    function handleRestartQuiz() {
+      setUserAnswers([]);
+    }, []);
+
   const handleSkipAnswer = useCallback(
     () => handleSelectAnswer(null),
     [handleSelectAnswer]
@@ -26,7 +31,7 @@ export default function Quiz() {
 
   if (quizIsComplete) {
     return (
-      <Summary userAnswers={userAnswers} />
+      <Summary userAnswers={userAnswers} onRestart={handleRestartQuiz}/>
     );
   }
   return (
