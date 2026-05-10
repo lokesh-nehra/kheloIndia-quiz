@@ -1,14 +1,23 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import QuestionTimer from "./QuestionTimer.jsx";
 import Answers from "./Answers.jsx";
 import QUESTIONS from "../Questions.js";
+import audio from "../assets/ReelAudio-69974.mp3"
 
-export default function Question({ index, onSelectAnswer, onSkipAnswer }) {
+const wrongSound = new Audio(audio);
+
+export default function Question({ index, onSelectAnswer, onSkipAnswer, soundEnabled }) {
   const [answer, setAnswer] = useState({
     selectedAnswer: "",
     isCorrect: null,
   });
+
+  useEffect(() => {
+    if(answer.selectedAnswer && answer.isCorrect === false && soundEnabled) {
+      wrongSound.play().catch(e => console.log("Sound play failed", e));
+    }
+  }, [answer.isCorrect, soundEnabled]);
 
   let timer = 10000;
 
